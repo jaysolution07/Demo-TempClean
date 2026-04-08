@@ -457,7 +457,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#333;font-
     </div>
     <div class="topbar-right">
       <span id="conn-status">⏳</span>
-      <span id="demo-pill" class="demo-pill" style="display:none">Demo investisseurs</span>
+      <span id="demo-pill" class="demo-pill" style="display:none">Demo</span>
       <button class="btn btn-white btn-sm" onclick="printPage()">🖨️</button>
       <button class="btn btn-sm" style="background:#7B1FA2;color:#fff" onclick="showCloture()">📦 Clôturer</button>
       <button id="btn-logout" class="btn btn-sm" style="background:rgba(255,255,255,.15);color:#fff" onclick="logout()" title="Déconnexion">🚪</button>
@@ -584,7 +584,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#333;font-
 
 const MASTER_API_URL = 'https://script.google.com/macros/s/AKfycbysG2pctGrrGyAcCLAZtOl2RmLUAj6S6cAqK9gJPrbPA9boz51fo2Umy_yo3ydVEWw-/exec';
 const DEMO_MODE = true;
-const DEMO_COMPANY_NAME = 'Glaces de Provence - Demo investisseurs';
+const DEMO_COMPANY_NAME = 'mode démo';
 
 // ════════════════════════════════════════════════════════════════════
 //  LOGIN
@@ -1013,7 +1013,7 @@ function createDemoStore(){
       { rowIndex:305, date:'2026-03-11 08:02:19', nom:DEMO_COMPANY_NAME, id:'lmartin', event:'LOGIN', detail:'Consultation releves froid et pesees' },
       { rowIndex:306, date:'2026-03-17 16:44:12', nom:DEMO_COMPANY_NAME, id:'tcolin', event:'LOGIN', detail:'Saisie prelevements de surface' },
       { rowIndex:307, date:'2026-03-22 18:01:58', nom:DEMO_COMPANY_NAME, id:'', event:'CLOTURE', detail:'2026-S1 - Bi-Annuel' },
-      { rowIndex:308, date:'2026-03-28 09:07:32', nom:DEMO_COMPANY_NAME, id:'invest-demo', event:'LOGIN', detail:'Session demonstration investisseurs' }
+      { rowIndex:308, date:'2026-03-28 09:07:32', nom:DEMO_COMPANY_NAME, id:'invest-demo', event:'LOGIN', detail:'Session demonstration' }
     ]
   };
 }
