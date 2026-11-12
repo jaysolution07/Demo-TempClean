@@ -396,6 +396,43 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#333;font-
   .alert-banner{display:none!important;}
   @page{size:A4 landscape;margin:6mm;}
 }
+/* ══ TABLEAU DE BORD ══ */
+.db-card{background:#fff;border-radius:14px;padding:14px 16px;margin:0 0 12px;box-shadow:var(--shadow);}
+.db-card h3{font-size:15px;color:var(--teal-dark);margin-bottom:8px;}
+.db-filters{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;}
+.db-field{flex:1;min-width:180px;}
+.db-field label{display:block;font-size:11px;font-weight:700;color:#607D8B;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px;}
+.db-field select{width:100%;border:1px solid #cfd8dc;border-radius:8px;padding:10px;font-size:14px;background:#fff;color:#1B6B7B;font-weight:700;}
+.db-note{font-size:12px;color:#78909c;margin-top:8px;line-height:1.45;}
+.db-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:0 0 12px;}
+.db-kpi{background:#fff;border-radius:12px;padding:12px;box-shadow:var(--shadow);}
+.db-kpi .v{font-size:20px;font-weight:700;color:var(--teal-dark);}
+.db-kpi .l{font-size:11px;color:#78909c;margin-top:2px;}
+.db-kpi.bad .v{color:#C62828;}
+.db-table{width:100%;border-collapse:collapse;font-size:12px;}
+.db-table th{text-align:left;font-size:11px;color:#607D8B;padding:6px 8px;border-bottom:1px solid #eceff1;}
+.db-table td{padding:7px 8px;border-bottom:1px solid #f5f5f5;vertical-align:middle;}
+.db-bar{height:8px;background:#eceff1;border-radius:99px;overflow:hidden;min-width:70px;}
+.db-bar i{display:block;height:100%;background:#2E9DB5;}
+.db-tabs{display:flex;gap:8px;margin:12px 0;}
+.db-tabs button{border:none;background:#eceff1;color:#455a64;border-radius:999px;padding:8px 14px;font-weight:700;cursor:pointer;}
+.db-tabs button.on{background:#1B6B7B;color:#fff;}
+.db-svg{width:100%;height:auto;display:block;background:#f7fbfc;border-radius:10px;}
+.db-checks{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px;}
+.db-checks label{display:flex;align-items:center;gap:6px;background:#f7fbfc;border:1px solid #d7eef2;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:600;color:#1B6B7B;}
+/* ══ NOMS DES ZONES DU RELEVÉ ══ */
+.module-labels{margin-top:12px;padding-top:12px;border-top:1px dashed #d5d5d5;}
+.module-labels > label{font-size:12px;font-weight:700;color:var(--teal-dark);}
+.mod-label-grid{display:grid;gap:6px;margin-top:6px;}
+.mod-label-row{display:flex;gap:6px;align-items:center;}
+.mod-label-ico{width:22px;text-align:center;font-size:16px;}
+.mod-label-row input{flex:1;min-width:0;border:1px solid #cfd8dc;border-radius:8px;padding:8px 10px;font-size:13px;background:#fff;color:#263238;}
+.mod-label-row input:first-of-type{max-width:130px;font-weight:700;color:var(--teal-dark);}
+.mod-label-hint{font-size:11px;color:#78909c;margin-top:6px;}
+/* ══ ÉDITEUR ZONES : TEMPLATE ══ */
+.zones-tpl-row{display:flex;gap:8px;align-items:center;margin-bottom:8px;}
+.zones-tpl-row label{font-size:12px;font-weight:700;color:#37474f;white-space:nowrap;}
+.zones-tpl-row select{flex:1;padding:9px 10px;border:1px solid #cfd8dc;border-radius:8px;font-size:13px;background:#fff;color:#1B6B7B;font-weight:700;}
 </style>
 </head>
 <body>
@@ -494,14 +531,18 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#333;font-
     </div>
     <div class="sidebar-body">
       <div class="sidebar-section-title">Nettoyage hebdo</div>
-      <div class="sidebar-item" data-tab="chaud" onclick="sidebarNav('chaud',this)"><span class="si-icon">🔥</span> Labo Chaud</div>
-      <div class="sidebar-item" data-tab="froid" onclick="sidebarNav('froid',this)"><span class="si-icon">❄️</span> Labo Froid</div>
-      <div class="sidebar-item" data-tab="autres" onclick="sidebarNav('autres',this)"><span class="si-icon">🏭</span> Autres Zones</div>
+      <div class="sidebar-item" data-tab="chaud" onclick="sidebarNav('chaud',this)"><span class="si-icon">🔥</span> <span id="sidelbl-chaud">Labo Chaud</span></div>
+      <div class="sidebar-item" data-tab="froid" onclick="sidebarNav('froid',this)"><span class="si-icon">❄️</span> <span id="sidelbl-froid">Labo Froid</span></div>
+      <div class="sidebar-item" data-tab="autres" onclick="sidebarNav('autres',this)"><span class="si-icon">🏭</span> <span id="sidelbl-autres">Autres Zones</span></div>
       <div class="sidebar-section-title">Fréquences</div>
-      <div class="sidebar-item" data-tab="biannuel" onclick="sidebarNav('biannuel',this)"><span class="si-icon">📅</span> Bi-Annuelles</div>
+      <div class="sidebar-item" data-tab="biannuel" onclick="sidebarNav('biannuel',this)"><span class="si-icon">📅</span> <span id="sidelbl-biannuel">Bi-Annuelles</span></div>
       <div class="sidebar-section-title">Relevés</div>
       <div class="sidebar-item" data-tab="prelevements" onclick="sidebarNav('prelevements',this)"><span class="si-icon">🔬</span> Prélèvements</div>
       <div class="sidebar-item" data-tab="pesees" onclick="sidebarNav('pesees',this)"><span class="si-icon">⚖️</span> Pesées</div>
+      <div class="sidebar-section-title">Historique</div>
+<div class="sidebar-item" data-tab="dashboard" onclick="sidebarNav('dashboard',this)">
+  <span class="si-icon">📊</span> Tableau de bord
+</div>
       <div class="sidebar-section-title">Températures</div>
 <div class="sidebar-item" data-tab="temp-manager" onclick="sidebarNav('temp-manager',this)">
   <span class="si-icon">🌡️</span> Appareils
@@ -528,15 +569,16 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#333;font-
 </div>
 
 <div class="tabs" id="tabs-bar">
-    <div class="tab active" data-tab="chaud" onclick="switchTab('chaud',this)">🔥 Chaud</div>
-    <div class="tab" data-tab="froid" onclick="switchTab('froid',this)">❄️ Froid</div>
-    <div class="tab" data-tab="autres" onclick="switchTab('autres',this)">🏭 Autres</div>
-    <div class="tab" data-tab="biannuel" onclick="switchTab('biannuel',this)">📅 Bi-Ann.</div>
+    <div class="tab active" data-tab="chaud" onclick="switchTab('chaud',this)">🔥 <span id="tablbl-chaud">Chaud</span></div>
+    <div class="tab" data-tab="froid" onclick="switchTab('froid',this)">❄️ <span id="tablbl-froid">Froid</span></div>
+    <div class="tab" data-tab="autres" onclick="switchTab('autres',this)">🏭 <span id="tablbl-autres">Autres</span></div>
+    <div class="tab" data-tab="biannuel" onclick="switchTab('biannuel',this)">📅 <span id="tablbl-biannuel">Bi-Ann.</span></div>
     <div class="tab" data-tab="prelevements" onclick="switchTab('prelevements',this)">🔬 Prélèv.</div>
     <div class="tab" data-tab="pesees" onclick="switchTab('pesees',this)">⚖️ Pesées</div>
     <div class="tab" data-tab="maintenance" onclick="switchTab('maintenance',this)">🛠️ Machines</div>
     <div class="tab" data-tab="freezer" onclick="switchTab('freezer',this)">🧊 Congelateur</div>
     <div class="tab-div"></div>
+    <div class="tab" data-tab="dashboard" onclick="switchTab('dashboard',this)">📊 Tableau</div>
     <div class="tab" data-tab="temp-manager" onclick="switchTab('temp-manager',this)">⚙️ Appareils <span class="badge" id="badge-app">0</span></div>
     <div class="tab" data-tab="elog" onclick="switchTab('elog',this)">📋 E-Log</div>
   </div>
@@ -552,7 +594,11 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#333;font-
 <div id="zones-modal" class="modal-overlay">
   <div class="modal-box">
     <h2 id="zones-title">🧩 Zones &amp; machines</h2>
-    <p class="zones-hint">Modifiez librement le nom des zones et des machines / lieux de ce module. Vous pouvez aussi créer ou supprimer des zones et des lignes. Les cases déjà cochées sont conservées pour les lignes existantes ; une ligne supprimée n'est plus affichée mais son historique n'est pas réutilisé.</p>
+    <div class="zones-tpl-row">
+      <label for="zones-module-select">Type de relevé</label>
+      <select id="zones-module-select" onchange="onZonesModuleChange(this.value)"></select>
+    </div>
+    <p class="zones-hint" id="zones-hint">Modifiez librement le nom des zones et des machines / lieux de ce module. Vous pouvez aussi créer ou supprimer des zones et des lignes. Les cases déjà cochées sont conservées pour les lignes existantes ; une ligne supprimée n'est plus affichée mais son historique n'est pas réutilisé.</p>
     <div id="zones-body" class="zones-body"></div>
     <div class="zones-actions">
       <button class="btn" style="background:#E0F7FA;color:#1B6B7B" onclick="addZone()">➕ Zone</button>
@@ -635,7 +681,7 @@ const MASTER_API_URL = 'https://script.google.com/macros/s/AKfycbysG2pctGrrGyAcC
 // URL directe d'une Web App (fallback si la feuille MASTER ne fournit pas de WEBAPPURL)
 const DIRECT_API_URL = '';
 const DEMO_MODE = true;
-const DEMO_COMPANY_NAME = 'Glaces de Provence - Demo investisseurs';
+const DEMO_COMPANY_NAME = 'mode demo';
 
 // ════════════════════════════════════════════════════════════════════
 //  LOGIN
@@ -914,6 +960,53 @@ let ZONES_TAB = null;
 function layoutNewId(p){ return p + Math.random().toString(36).slice(2,9) + Date.now().toString(36).slice(-4); }
 function layoutStoreKey(){ return LAYOUT_LS_PREFIX + 'demo'; }
 
+// ── Noms des zones du relevé (Chaud, Froid… renommables) ────────────
+const MODULE_DEFAULTS = {
+  chaud:    { short: 'Chaud',   long: 'Labo Chaud' },
+  froid:    { short: 'Froid',   long: 'Labo Froid' },
+  autres:   { short: 'Autres',  long: 'Autres Zones' },
+  biannuel: { short: 'Bi-Ann.', long: 'Bi-Annuelles' }
+};
+function normalizeModuleLabels(raw){
+  const out = {};
+  LAYOUT_TABS.forEach(t => {
+    const src = (raw && raw[t]) || {};
+    const d = MODULE_DEFAULTS[t];
+    out[t] = {
+      short: String(src.short || '').trim().slice(0, 18) || d.short,
+      long:  String(src.long  || '').trim().slice(0, 40) || d.long
+    };
+  });
+  return out;
+}
+function moduleLabel(t, kind){
+  initLayout();
+  const d = MODULE_DEFAULTS[t] || MODULE_DEFAULTS.autres;
+  const l = LAYOUT && LAYOUT.labels && LAYOUT.labels[t];
+  if (!l) return kind === 'short' ? d.short : d.long;
+  return kind === 'short' ? (l.short || d.short) : (l.long || d.long);
+}
+function setModuleLabel(t, kind, val){
+  initLayout();
+  if (LAYOUT_TABS.indexOf(t) === -1) return;
+  if (!LAYOUT.labels) LAYOUT.labels = normalizeModuleLabels(null);
+  const d = MODULE_DEFAULTS[t];
+  const v = String(val || '').trim().slice(0, kind === 'short' ? 18 : 40);
+  LAYOUT.labels[t][kind] = v || d[kind];
+  applyModuleLabels();
+  refreshLayoutViews();
+  persistLayout();
+}
+function applyModuleLabels(){
+  initLayout();
+  LAYOUT_TABS.forEach(t => {
+    const tabEl = document.getElementById('tablbl-' + t);
+    if (tabEl) tabEl.textContent = moduleLabel(t, 'short');
+    const sideEl = document.getElementById('sidelbl-' + t);
+    if (sideEl) sideEl.textContent = moduleLabel(t, 'long');
+  });
+}
+
 function buildDefaultLayout(){
   const tabs = {};
   LAYOUT_TABS.forEach(tabId => {
@@ -930,12 +1023,12 @@ function buildDefaultLayout(){
       nextSlot: slot
     };
   });
-  return { v: LAYOUT_VERSION, updated: 0, tabs: tabs, types: normalizeTypes(null) };
+  return { v: LAYOUT_VERSION, updated: 0, tabs: tabs, types: normalizeTypes(null), labels: normalizeModuleLabels(null) };
 }
 
 function normalizeLayout(raw){
   if (!raw || !raw.tabs) return null;
-  const out = { v: LAYOUT_VERSION, updated: Number(raw.updated) || 0, tabs: {}, types: normalizeTypes(raw.types) };
+  const out = { v: LAYOUT_VERSION, updated: Number(raw.updated) || 0, tabs: {}, types: normalizeTypes(raw.types), labels: normalizeModuleLabels(raw.labels) };
   LAYOUT_TABS.forEach(tabId => {
     const src = raw.tabs[tabId];
     if (!src || !Array.isArray(src.sections)) return;
@@ -981,7 +1074,7 @@ function initLayout(){
 function layoutData(tabId){
   initLayout();
   if (!LAYOUT || !LAYOUT.tabs[tabId]) return DATA[tabId];
-  return { title: DATA[tabId].title, sections: LAYOUT.tabs[tabId].sections };
+  return { title: moduleLabel(tabId, 'long'), sections: LAYOUT.tabs[tabId].sections };
 }
 function refreshLayoutViews(){
   if (S.tab && LAYOUT_TABS.indexOf(S.tab) !== -1) renderTab(S.tab);
@@ -997,8 +1090,9 @@ function openZonesEditor(tabId){
   initLayout();
   ZONES_TAB = tabId;
   try { localStorage.setItem('tc_zones_last_module', tabId); } catch (e) {}
-  const title = document.getElementById('zones-title');
-  if (title) title.textContent = '🧩 Zones & machines — ' + DATA[tabId].title;
+  const sel = document.getElementById('zones-module-select');
+  if (sel) sel.innerHTML = zoneModuleOptions(tabId, true);
+  refreshZonesHeader();
   renderZonesEditor();
   document.getElementById('zones-modal').style.display = 'flex';
 }
@@ -1108,19 +1202,37 @@ function resetZonesLayout(){
   toast('↺ Liste d\'origine restaurée');
 }
 
-// ── Accès rapide aux zones depuis le menu Appareils ────────────────
-const ZONE_MODULE_LABELS = { chaud: 'Laboratoire Chaud', froid: 'Laboratoire Froid', autres: 'Autres zones', biannuel: 'Fréquences Bi-Annuelles' };
+// Deux templates : relevé quotidien (une case par JOUR) et relevé bi-annuel (une case par MOIS).
+const ZONE_MODULE_FREQ = { chaud: 'cases = jours', froid: 'cases = jours', autres: 'cases = jours', biannuel: 'cases = mois' };
 function lastZonesModule(){
   let m = 'autres';
   try { m = localStorage.getItem('tc_zones_last_module') || 'autres'; } catch (e) {}
   return LAYOUT_TABS.indexOf(m) === -1 ? 'autres' : m;
 }
-function zoneModuleOptions(sel){
-  return LAYOUT_TABS.map(t => `<option value="${t}"${t === sel ? ' selected' : ''}>${ZONE_MODULE_LABELS[t]}</option>`).join('');
+function zoneModuleOptions(sel, withFreq){
+  return LAYOUT_TABS.map(t => `<option value="${t}"${t === sel ? ' selected' : ''}>${moduleLabel(t, 'long')}${withFreq ? ' — ' + ZONE_MODULE_FREQ[t] : ''}</option>`).join('');
 }
 function openZonesFromManager(){
   const s = document.getElementById('zones-module-pick');
   openZonesEditor((s && s.value) || lastZonesModule());
+}
+// Titre + explication adaptés au template choisi (jours ou mois).
+function refreshZonesHeader(){
+  if (!ZONES_TAB) return;
+  const biannuel = ZONES_TAB === 'biannuel';
+  const title = document.getElementById('zones-title');
+  if (title) title.textContent = '🧩 Zones & machines — ' + moduleLabel(ZONES_TAB, 'long');
+  const hint = document.getElementById('zones-hint');
+  if (hint) hint.innerHTML = biannuel
+    ? 'Template <strong>bi-annuel</strong> : chaque ligne est cochée <strong>une fois par mois</strong> (cases = mois) dans le module Fréquences Bi-Annuelles.<br>Renommez, ajoutez ou supprimez librement zones et lignes : les coches existantes sont conservées.'
+    : 'Template <strong>quotidien</strong> : chaque ligne se coche <strong>chaque jour</strong> (cases = jours) dans le relevé de ce module.<br>Renommez, ajoutez ou supprimez librement zones et lignes : les coches existantes sont conservées.';
+}
+function onZonesModuleChange(tabId){
+  if (LAYOUT_TABS.indexOf(tabId) === -1) return;
+  ZONES_TAB = tabId;
+  try { localStorage.setItem('tc_zones_last_module', tabId); } catch (e) {}
+  refreshZonesHeader();
+  renderZonesEditor();
 }
 
 // ── Types d'appareils (renommables, comme les zones) ───────────────
@@ -1312,6 +1424,7 @@ function createDemoStore(){
       [SHEET_NAMES.autres]: buildDemoHebdoState('autres','2026-03','TC','05/03/2026 - local poubelle nettoye avec retard apres surcharge expedition.\n17/03/2026 - vestiaires remis en conformite apres rappel hygiene.')
     },
     biannuel: buildDemoBiannuelState(),
+    historique: demoArchiveFactice(appareils),
     appStates: {
       cf_neg_stock: buildDemoNegState({ amAlerts:{6:-15,18:-16}, pmAlerts:{13:-14,27:-15} }),
       cf_neg_expe: buildDemoNegState({ amAlerts:{8:-16,20:-15}, pmAlerts:{10:-14,25:-15} }),
@@ -1556,11 +1669,24 @@ async function demoApi(action, params={}){
       delete DEMO_STORE.comments['app_'+params.id];
       delete DEMO_STORE.appMeta[params.id];
       return { ok:true };
-    case 'cloturerBiannuel':
+    case 'getHistorique': {
+      const liste = (DEMO_STORE.historique || []).map(e => ({ id:e.id, type:e.type, label:e.label, mois:e.mois, clotureLe:e.clotureLe }));
+      if (!params.id) return { ok:true, clotures:liste };
+      const trouve = (DEMO_STORE.historique || []).find(e => e.id === params.id);
+      if (!trouve) return { ok:false, error:'Clôture introuvable' };
+      return { ok:true, data:deepClone(trouve.data) };
+    }
+    case 'cloturerBiannuel': {
+      const label = params.label || (new Date().getFullYear() + ' – Bi-Annuel');
+      try { await demoArchiver('bi', label); } catch (e) {}
       DEMO_STORE.biannuel = { _month:'2026', _visa:'', _comment:'' };
       return { ok:true };
-    case 'cloturerMois':
+    }
+    case 'cloturerMois': {
+      const label = params.moisLabel || params.mois || '';
+      try { await demoArchiver('mois', label); demoResetRelevesMois(); } catch (e) {}
       return { ok:true };
+    }
     default:
       return { ok:true };
   }
@@ -1612,6 +1738,7 @@ async function initApp() {
     S.comments = { ...S.comments, ...(data.comments || {}) };
     S.meta = { ...S.meta, ...(data.meta || {}) };
     updateAppareilsTabs();
+    applyModuleLabels();
     document.querySelectorAll('#tabs-bar .tab').forEach(t => t.classList.toggle('active', t.getAttribute('data-tab')==='chaud'));
     const defItem = document.querySelector('.sidebar-item[data-tab="chaud"]');
     if (defItem) defItem.classList.add('active');
@@ -1736,6 +1863,7 @@ function renderTab(tab) {
     setTimeout(highlightTodayTempColumns, 0);
   }
   else if (tab==='biannuel') c.innerHTML=buildBiannuel();
+  else if (tab==='dashboard') { openDashboard(); }
   else c.innerHTML=buildHebdo(tab);
 }
 
@@ -2680,6 +2808,9 @@ function buildHebdo(tabId){
       </div></td>`;}).join('')}</tr>`;
     });
   });
+  if(!d.sections.length){
+    html+=`<tr><td colspan="33" style="padding:26px 14px;text-align:center;color:#78909c;font-size:13px;line-height:1.6">Aucune zone pour l'instant — créez vos zones, vos machines et vos appareils.<br><button class="btn btn-sm" style="margin-top:10px;background:#E0F7FA;color:var(--teal-dark);border:1px solid #B2EBF2" onclick="openZonesEditor('${tabId}')">🧩 Créer mes zones / machines</button></td></tr>`;
+  }
   html+=`</tbody></table></div>
   <div class="comment-box"><h3>📝 Anomalies & Commentaires</h3>
     <textarea id="cmt-${tabId}" placeholder="Date + description des anomalies...">${esc(S.comments[tabId]||'')}</textarea>
@@ -2716,6 +2847,9 @@ function buildBiannuel(){
       ${MONTHS.map((_,mi)=>{const ck=S.checks['biannuel']['i'+idx+'__'+mi]?'checked':'';return`<td><div class="cb-wrap"><input type="checkbox" ${ck} onchange="tickBi(${idx},${mi},this.checked)"></div></td>`;}).join('')}</tr>`;
     });
   });
+  if(!d.sections.length){
+    html+=`<tr><td colspan="14" style="padding:26px 14px;text-align:center;color:#78909c;font-size:13px;line-height:1.6">Aucune zone pour l'instant — créez vos zones et vos machines.<br><button class="btn btn-sm" style="margin-top:10px;background:#E0F7FA;color:var(--teal-dark);border:1px solid #B2EBF2" onclick="openZonesEditor('biannuel')">🧩 Créer mes zones / machines</button></td></tr>`;
+  }
   html+=`</tbody></table></div>
   <div class="comment-box"><h3>📝 Anomalies & Commentaires</h3>
     <textarea id="cmt-biannuel" placeholder="Date + description...">${esc(S.comments['biannuel']||'')}</textarea>
@@ -2778,6 +2912,7 @@ function buildTempMat(app){
 // ════════════════════════════════════════════════════════════════════
 //  BUILD MANAGER APPAREILS
 // ════════════════════════════════════════════════════════════════════
+const MODULE_ICONS = { chaud: '🔥', froid: '❄️', autres: '🏭', biannuel: '📅' };
 function buildManager(){
   const actifs=S.appareils.filter(a=>a.actif),inactifs=S.appareils.filter(a=>!a.actif);
   let cards=actifs.map(a=>buildCard(a,true)).join('')||'<p style="color:#999;font-size:13px;padding:10px 0">Aucun appareil actif.</p>';
@@ -2787,6 +2922,16 @@ function buildManager(){
     <div><label>Nom de l'appareil</label><input type="text" id="new-nom" placeholder="Ex: Chambre froide sud" style="margin-top:5px"></div>
     <div><label>Type</label><select id="new-type" style="margin-top:5px">${typeOptions()}</select><button class="btn btn-sm" style="margin-top:5px;width:100%;background:#F3E5F5;color:#6A1B9A" onclick="openTypesEditor()">✏️ Renommer les types</button></div>
     <button class="btn btn-primary" style="width:100%;margin-top:4px" onclick="ajouterAppareil()">➕ Ajouter un appareil</button>
+  </div>
+  <div class="module-labels">
+    <label>🏷️ Noms des zones du relevé</label>
+    <div class="mod-label-grid">
+      ${LAYOUT_TABS.map(t => `<div class="mod-label-row"><span class="mod-label-ico">${MODULE_ICONS[t]}</span>
+        <input type="text" maxlength="18" value="${esc(moduleLabel(t,'short'))}" placeholder="Onglet" onchange="setModuleLabel('${t}','short',this.value)">
+        <input type="text" maxlength="40" value="${esc(moduleLabel(t,'long'))}" placeholder="Nom complet" onchange="setModuleLabel('${t}','long',this.value)">
+      </div>`).join('')}
+    </div>
+    <div class="mod-label-hint">À gauche le nom de l'onglet, à droite le nom complet (titres, menus, éditeur de zones).</div>
   </div>
   <div class="zones-shortcut">
     <div><label>Zones &amp; machines du relevé</label><select id="zones-module-pick" style="margin-top:5px">${zoneModuleOptions(lastZonesModule())}</select></div>
@@ -2896,6 +3041,578 @@ function applyUpdate() {
 }
 
 // ════════════════════════════════════════════════════════════════════
+//  TABLEAU DE BORD — 6 dernières clôtures (zones + appareils)
+// ════════════════════════════════════════════════════════════════════
+const DB_COLORS = ['#1B6B7B','#E65100','#6A1B9A','#2E7D32','#1565C0','#C62828','#00838F','#EF6C00'];
+function moisDepuisLabel(label){
+  const m = /(\d{4})\D(\d{1,2})/.exec(String(label || ''));
+  if (!m) return '';
+  const mm = parseInt(m[2], 10);
+  if (mm < 1 || mm > 12) return '';
+  return m[1] + '-' + String(mm).padStart(2, '0');
+}
+function dbReset(){ S.histoList = null; S.histoData = {}; S.dbId = ''; S.dbVue = ''; S.histoErr = ''; }
+
+async function openDashboard(){
+  const c = document.getElementById('main-content');
+  if (!S.histoList) {
+    c.innerHTML = '<div class="loading"><div class="spinner"></div><span>Lecture des clôtures…</span></div>';
+    try {
+      const r = await api('getHistorique', {});
+      if (!r || r.ok === false) throw new Error((r && r.error) || 'Historique illisible');
+      S.histoList = r.clotures || [];
+      S.histoErr = '';
+    } catch (e) {
+      S.histoList = [];
+      S.histoErr = e.message || 'Historique illisible';
+    }
+  }
+  if (S.tab !== 'dashboard') return;
+  S.histoList = dbAvecMoisEnCours(S.histoList);
+  if (!S.dbId || !S.histoList.some(x => x.id === S.dbId)) S.dbId = '__live__';
+  const liste = S.histoList;
+  const opts = liste.map(x => '<option value="' + esc(x.id) + '"' + (x.id === S.dbId ? ' selected' : '') + '>' + esc(x.live ? 'Mois en cours' : dbTexteCloture(x)) + '</option>').join('');
+  c.innerHTML = '<div class="db-card"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><h3 style="margin:0">📊 Tableau de bord</h3><button class="btn btn-sm btn-primary" onclick="dbReset();openDashboard()">🔄 Actualiser</button></div>'
+    + '<div class="db-filters" style="margin-top:12px"><div class="db-field"><label>Clôture</label><select onchange="dbChoisir(this.value)">' + opts + '</select></div></div>'
+    + '<p class="db-note">Historique des zones et des appareils. Seules les <strong>6 dernières</strong> clôtures de chaque type sont conservées.</p></div>'
+    + '<div id="db-body"><div class="loading"><div class="spinner"></div><span>Chargement…</span></div></div>';
+  await dbAfficher();
+}
+function dbTexteCloture(x){
+  const base = x.label || x.mois || '';
+  if (x.type === 'bi') return base + (/bi-?annuel/i.test(base) ? '' : ' · bi-annuel');
+  return base + (/mois/i.test(base) ? '' : ' · mois');
+}
+async function dbChoisir(id){
+  S.dbId = id;
+  const meta = (S.histoList || []).find(x => x.id === id);
+  S.dbVue = (meta && meta.type === 'bi') ? 'zones' : 'appareils';
+  await dbAfficher();
+}
+function dbVue(v){ S.dbVue = v; const el = document.getElementById('db-body'); if (el && S.histoData && S.histoData[S.dbId]) el.innerHTML = dbCorps(S.histoData[S.dbId], (S.histoList || []).find(x => x.id === S.dbId)); }
+async function dbAfficher(){
+  const el = document.getElementById('db-body');
+  if (!el || S.tab !== 'dashboard') return;
+  try {
+    if (!S.histoData) S.histoData = {};
+    if (S.dbId === '__live__') {
+      await dbChargerAppChecks();
+      if (S.tab !== 'dashboard') return;
+      S.histoData.__live__ = { appareils: dbLiveAppareils(), zones: [] };
+    } else if (!S.histoData[S.dbId]) {
+      const r = await api('getHistorique', { id: S.dbId });
+      if (!r || r.ok === false || !r.data) throw new Error((r && r.error) || 'Clôture introuvable');
+      S.histoData[S.dbId] = r.data;
+    }
+    if (S.tab !== 'dashboard') return;
+    const meta = (S.histoList || []).find(x => x.id === S.dbId);
+    el.innerHTML = dbCorps(S.histoData[S.dbId], meta);
+  } catch (e) {
+    el.innerHTML = '<div class="db-card">⚠️ ' + esc(e.message) + '</div>';
+  }
+}
+function dbCorps(data, meta){
+  const bi = meta && meta.type === 'bi';
+  const live = meta && meta.live;
+  if (live) S.dbVue = 'appareils';
+  else if (!S.dbVue) S.dbVue = bi ? 'zones' : 'appareils';
+  const vue = bi ? 'zones' : S.dbVue;
+  let html = '<div class="db-tabs">';
+  if (!live) html += '<button class="' + (vue === 'zones' ? 'on' : '') + '" onclick="dbVue(\'zones\')">🧩 Zones</button>';
+  if (!bi) html += '<button class="' + (vue === 'appareils' ? 'on' : '') + '" onclick="dbVue(\'appareils\')">🌡️ Appareils</button>';
+  html += '<button class="btn btn-sm" style="margin-left:auto;background:#7B1FA2;color:#fff" onclick="dbPdf()">📄 Retélécharger le PDF' + (live ? ' (en cours)' : '') + '</button>';
+  html += '</div>';
+  if (S.histoErr && live) html += '<p class="db-note">Archives non lues (' + esc(S.histoErr) + '). Le mois en cours reste affiché.</p>';
+  if (vue === 'appareils' && !bi) html += dbAppareils(data, !!live);
+  else html += dbZones(data, bi);
+  return html;
+}
+function dbZones(data, bi){
+  const max = bi ? 12 : 31;
+  const zones = data.zones || [];
+  if (!zones.length) return '<div class="db-card">Aucune zone dans cette clôture.</div>';
+  return zones.map(z => {
+    const lignes = z.lignes || [];
+    const possible = Math.max(lignes.length, 1) * max;
+    const faits = lignes.reduce((n, l) => n + ((l.jours || []).length), 0);
+    const pct = Math.round(faits / possible * 100);
+    let rows = lignes.map(l => {
+      const n = (l.jours || []).length;
+      const p = Math.round(n / max * 100);
+      return '<tr><td>' + esc(l.zone || '—') + '</td><td>' + esc(l.nom) + '</td><td>' + n + ' / ' + max + '</td><td><div class="db-bar"><i style="width:' + p + '%"></i></div></td></tr>';
+    }).join('');
+    if (!rows) rows = '<tr><td colspan="4">Aucune ligne enregistrée.</td></tr>';
+    return '<div class="db-card"><h3>' + esc(z.nom || 'Zone') + '</h3>'
+      + '<div class="db-kpis"><div class="db-kpi"><div class="v">' + pct + '%</div><div class="l">Couverture des coches</div></div>'
+      + '<div class="db-kpi"><div class="v">' + faits + '</div><div class="l">Cases cochées</div></div>'
+      + '<div class="db-kpi"><div class="v">' + esc(z.visa || '—') + '</div><div class="l">Visa' + (z.mois ? ' · ' + esc(z.mois) : '') + '</div></div></div>'
+      + (z.comment ? '<p class="db-note">' + esc(z.comment) + '</p>' : '')
+      + '<div style="overflow:auto"><table class="db-table"><thead><tr><th>Zone</th><th>Ligne</th><th>' + (bi ? 'Mois cochés' : 'Jours cochés') + '</th><th></th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
+  }).join('');
+}
+function dbAvecMoisEnCours(liste){
+  const live = { id: '__live__', type: 'mois', label: 'Mois en cours', mois: '', clotureLe: '', live: true };
+  return [live].concat((liste || []).filter(x => x.id !== '__live__'));
+}
+// S'assure que les coches des appareils sont en mémoire avant d'afficher les
+// courbes du mois en cours : les points = exactement les cases cochées.
+async function dbChargerAppChecks(){
+  const manquants = (S.appareils || []).filter(a => a.actif && !S.appChecks[a.id]);
+  for (const a of manquants) {
+    try {
+      const st = await api('loadAppareilState', { appareilId: a.id });
+      S.appChecks[a.id] = {};
+      Object.keys(st || {}).forEach(k => { S.appChecks[a.id][k] = (st[k] === true || st[k] === 'TRUE'); });
+    } catch (e) {}
+  }
+}
+function dbLiveAppareils(){
+  return (S.appareils || []).filter(a => a.actif).map(a => {
+    const ck = S.appChecks[a.id] || {};
+    const serie = {};
+    Object.keys(ck).forEach(k => {
+      if (!ck[k]) return;
+      if (a.type === 'neg') {
+        const m = /^(-?\d+)__(\d+)__(AM|PM)$/.exec(k);
+        if (!m) return;
+        if (!serie[m[2]]) serie[m[2]] = {};
+        const t = Number(m[1]);
+        if (serie[m[2]][m[3]] === undefined || t > serie[m[2]][m[3]]) serie[m[2]][m[3]] = t;
+      } else {
+        const m = /^(-?\d+)__(\d+)$/.exec(k);
+        if (!m) return;
+        const t = Number(m[1]);
+        if (serie[m[2]] === undefined || t > serie[m[2]]) serie[m[2]] = t;
+      }
+    });
+    return { id: a.id, nom: a.nom, type: a.type || 'mat', serie: serie };
+  });
+}
+function dbReleve(app, day, slot){
+  const s = (app.serie || {})[String(day)];
+  if (s === undefined || s === null) return null;
+  if (typeof s === 'number') return slot ? null : s;
+  if (!slot) {
+    const vals = ['AM','PM'].map(k => s[k]).filter(v => typeof v === 'number');
+    return vals.length ? Math.max.apply(null, vals) : null;
+  }
+  return typeof s[slot] === 'number' ? s[slot] : null;
+}
+function dbPoint(app, day){ return dbReleve(app, day, null); }
+function dbKpi(app){
+  const neg = app.type === 'neg';
+  const slots = neg ? ['AM','PM'] : [null];
+  const valeurs = [];
+  const alertes = [];
+  for (let d = 1; d <= 31; d++) {
+    slots.forEach(slot => {
+      const v = dbReleve(app, d, slot);
+      if (v === null) return;
+      valeurs.push(v);
+      if (neg ? v >= -15 : v >= 6) alertes.push(d + (slot ? ' ' + slot : ''));
+    });
+  }
+  let somme = 0, conformes = 0;
+  valeurs.forEach(v => { somme += v; if (neg ? v <= -18 : v <= 4) conformes++; });
+  const denom = neg ? 62 : 31;
+  return {
+    releves: valeurs.length,
+    couverture: Math.round(valeurs.length / denom * 100),
+    moyenne: valeurs.length ? Math.round(somme / valeurs.length * 10) / 10 : null,
+    min: valeurs.length ? Math.min.apply(null, valeurs) : null,
+    max: valeurs.length ? Math.max.apply(null, valeurs) : null,
+    conformite: valeurs.length ? Math.round(conformes / valeurs.length * 100) : 0,
+    alertes: alertes
+  };
+}
+function dbAppareils(data, live){
+  const apps = data.appareils || [];
+  if (!apps.length) return '<div class="db-card">Aucun appareil' + (live ? ' actif' : ' dans cette clôture') + '.</div>';
+  if (!S.dbApps) S.dbApps = {};
+  apps.forEach(a => { if (S.dbApps[a.id] === undefined) S.dbApps[a.id] = true; });
+  const choisis = apps.filter(a => S.dbApps[a.id]);
+  const checks = apps.map(a => '<label><input type="checkbox" ' + (S.dbApps[a.id] ? 'checked' : '') + ' onchange="dbToggleApp(\'' + String(a.id).replace(/'/g, '') + '\',this.checked)"> ' + esc(a.nom) + '</label>').join('');
+  const negatifs = choisis.filter(a => a.type === 'neg');
+  const positifs = choisis.filter(a => a.type !== 'neg');
+  let html = '<div class="db-card"><h3>🌡️ Courbes des températures' + (live ? ' — mois en cours' : '') + '</h3><div class="db-checks">' + checks + '</div>'
+    + '<p class="db-note">Même lecture que TEMPRO : un point par jour coché, un trou si le jour n’est pas relevé. Plusieurs cases le même jour : la température la plus haute est gardée. Le négatif trace le matin (trait plein) et l’après-midi (pointillés).</p></div>';
+  if (!choisis.length) return html + '<div class="db-card">Cochez au moins un appareil pour afficher sa courbe.</div>';
+  if (positifs.length) html += dbBlocCourbe('Positif et maturation', positifs, false);
+  if (negatifs.length) html += dbBlocCourbe('Négatif', negatifs, true);
+  return html;
+}
+function dbBlocCourbe(titre, apps, neg){
+  const series = [];
+  apps.forEach((a, i) => {
+    const couleur = DB_COLORS[i % DB_COLORS.length];
+    const slots = neg ? ['AM','PM'] : [null];
+    slots.forEach(slot => {
+      const pts = [];
+      for (let d = 1; d <= 31; d++) pts.push(dbReleve(a, d, slot));
+      series.push({ nom: a.nom + (slot ? ' ' + slot : ''), couleur: couleur, pts: pts, dash: slot === 'PM', alerte: neg ? -15 : 6 });
+    });
+  });
+  const rows = apps.map(a => {
+    const k = dbKpi(a);
+    return '<tr><td>' + esc(a.nom) + '</td><td>' + k.releves + '</td><td>' + k.couverture + '%</td><td>' + (k.moyenne === null ? '—' : k.moyenne + ' °C') + '</td><td>' + (k.min === null ? '—' : k.min) + '</td><td>' + (k.max === null ? '—' : k.max) + '</td><td>' + k.alertes.length + '</td><td>' + k.conformite + '%</td></tr>';
+  }).join('');
+  return '<div class="db-card"><h3>📈 ' + titre + (neg ? ' <span style="color:#90a4ae;font-weight:600">≤ −18 °C cible · ≥ −15 °C alerte</span>' : ' <span style="color:#90a4ae;font-weight:600">≤ 4 °C cible · ≥ 6 °C alerte</span>') + '</h3>'
+    + dbSvg(series, neg)
+    + '<div class="db-note" style="margin-bottom:10px">' + apps.map((a, i) => '<span style="color:' + DB_COLORS[i % DB_COLORS.length] + ';font-weight:700;margin-right:12px">' + esc(a.nom) + '</span>').join('') + '</div>'
+    + '<div style="overflow:auto"><table class="db-table"><thead><tr><th>Appareil</th><th>Relevés</th><th>Couverture</th><th>Moyenne</th><th>Mini</th><th>Maxi</th><th>Alertes</th><th>Conformité</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
+}
+function dbToggleApp(id, on){ if (!S.dbApps) S.dbApps = {}; S.dbApps[id] = on; dbVue('appareils'); }
+function dbSvg(series, neg){
+  const W = 780, H = 300, mL = 46, mR = 14, mT = 14, mB = 30;
+  const TMAX = neg ? -9 : 9, TMIN = neg ? -22 : -1;
+  const pw = W - mL - mR, ph = H - mT - mB;
+  const px = d => mL + (d - 1) / 30 * pw;
+  const py = t => mT + (TMAX - t) / (TMAX - TMIN) * ph;
+  const f = n => Number(n).toFixed(1);
+  const bande = (haut, bas, fill) => '<rect x="' + mL + '" y="' + f(py(haut)) + '" width="' + pw + '" height="' + f(py(bas) - py(haut)) + '" fill="' + fill + '"/>';
+  let s = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="db-svg" role="img">';
+  if (neg) {
+    s += bande(-9, -15, '#FFEBEE');
+    s += bande(-15, -18, '#FFF8E1');
+    s += bande(-18, -22, '#E8F5E9');
+  } else {
+    s += bande(9, 6, '#FFEBEE');
+    s += bande(6, 4, '#FFF8E1');
+    s += bande(4, -1, '#E8F5E9');
+  }
+  const seuils = neg ? [-15, -18] : [6, 4];
+  for (let t = TMAX; t >= TMIN; t--) {
+    const seuil = seuils.indexOf(t) >= 0;
+    const stroke = (neg ? t === -15 : t === 6) ? '#C62828' : ((neg ? t === -18 : t === 4) ? '#2E7D32' : '#cfd8dc');
+    s += '<line x1="' + mL + '" y1="' + f(py(t)) + '" x2="' + (W - mR) + '" y2="' + f(py(t)) + '" stroke="' + stroke + '" stroke-width="' + (seuil ? 1.4 : 0.7) + '"' + (seuil ? ' stroke-dasharray="5 4"' : '') + '/>';
+    s += '<text x="' + (mL - 6) + '" y="' + f(py(t) + 4) + '" font-size="11" fill="#607D8B" text-anchor="end">' + t + '°</text>';
+  }
+  for (let d = 1; d <= 31; d++) {
+    if (!(d === 1 || d === 31 || d % 5 === 0)) continue;
+    s += '<text x="' + f(px(d)) + '" y="' + (H - 8) + '" font-size="11" fill="#607D8B" text-anchor="middle">' + d + '</text>';
+  }
+  series.forEach(ser => {
+    let seg = [], segments = [];
+    ser.pts.forEach((v, i) => {
+      if (v === null || v === undefined) { if (seg.length) { segments.push(seg); seg = []; } return; }
+      seg.push(f(px(i + 1)) + ',' + f(py(v)));
+    });
+    if (seg.length) segments.push(seg);
+    segments.forEach(sg => {
+      if (sg.length < 2) return;
+      s += '<polyline fill="none" stroke="' + ser.couleur + '" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" points="' + sg.join(' ') + '"' + (ser.dash ? ' stroke-dasharray="6 4"' : '') + '/>';
+    });
+    ser.pts.forEach((v, i) => {
+      if (v === null || v === undefined) return;
+      const chaud = v >= ser.alerte;
+      s += '<circle cx="' + f(px(i + 1)) + '" cy="' + f(py(v)) + '" r="' + (chaud ? 4.4 : 3.2) + '" fill="' + (chaud ? '#C62828' : ser.couleur) + '"><title>' + esc(ser.nom) + ' — ' + (i + 1) + ' : ' + v + ' °C</title></circle>';
+    });
+  });
+  s += '</svg>';
+  return s;
+}
+function dbJourCoche(jours, d){ return (jours || []).some(j => Number(j) === d); }
+function dbCase(on){ return '<div class="cb-wrap"><input type="checkbox"' + (on ? ' checked' : '') + ' disabled></div>'; }
+function dbGrilleZone(z, bi){
+  const n = bi ? 12 : 31;
+  const heads = bi ? MONTHS : Array.from({ length: n }, (_, i) => i + 1);
+  let html = '<div class="meta-row"><label>' + (bi ? 'Période' : 'Mois / Année') + ' :</label><input type="text" value="' + esc(z.mois || '') + '" disabled>'
+    + '<label>Visa :</label><input type="text" style="width:90px" value="' + esc(z.visa || '') + '" disabled>'
+    + '<strong style="color:var(--teal-dark);font-size:13px;">' + esc(z.nom || '') + '</strong></div>';
+  html += '<div class="table-scroll"><table class="releve-table"><thead><tr><th class="th-equip">Équipement</th><th class="th-period">Périodicité</th>'
+    + heads.map(h => '<th class="th-day">' + esc(h) + '</th>').join('') + '</tr></thead><tbody>';
+  let zone = null;
+  (z.lignes || []).forEach(l => {
+    const zc = l.zone || '';
+    if (zc !== zone) {
+      zone = zc;
+      if (zc) html += '<tr><td colspan="' + (n + 2) + '" class="sec-hdr">' + esc(zc) + '</td></tr>';
+    }
+    const bio = l.nom === 'Produit BIO';
+    html += '<tr' + (bio ? ' class="bio-row"' : '') + '><td class="td-equip">' + esc(l.nom) + '</td><td class="td-period">' + esc(l.p || '') + '</td>';
+    for (let d = bi ? 0 : 1; d < (bi ? n : n + 1); d++) {
+      const on = dbJourCoche(l.jours, d);
+      const ph = l.ph && l.ph[String(d)];
+      html += '<td' + (bio ? ' style="background:var(--green-light)"' : '') + '>' + dbCase(on)
+        + (ph ? '<div style="font-size:8px;font-weight:700">' + esc(ph) + '</div>' : '') + '</td>';
+    }
+    html += '</tr>';
+  });
+  if (!(z.lignes || []).length) html += '<tr><td colspan="' + (n + 2) + '">Aucune ligne enregistrée.</td></tr>';
+  html += '</tbody></table></div>';
+  if (z.comment) html += '<div class="comment-box"><h3>📝 Anomalies & Commentaires</h3><textarea disabled>' + esc(z.comment) + '</textarea></div>';
+  return html;
+}
+function dbGrilleApp(a){
+  const neg = a.type === 'neg';
+  const days = Array.from({ length: 31 }, (_, i) => i + 1);
+  const temps = neg ? TEMPS_NEG : TEMPS_MAT;
+  let html = '<div class="meta-row"><span style="font-size:14px;font-weight:700;color:' + (neg ? '#1565C0' : '#00695C') + '">' + (neg ? '❄️' : '🧪') + ' ' + esc(a.nom) + '</span>'
+    + '<label>Mois/Année :</label><input type="text" value="' + esc(a.mois || '') + '" disabled>'
+    + '<label>Visa :</label><input type="text" style="width:80px" value="' + esc(a.visa || '') + '" disabled></div>';
+  html += '<div class="meta-row" style="background:' + (neg ? '#FFF3E0' : '#E0F2F1') + '"><span style="font-size:12px;font-weight:700;color:' + (neg ? '#E65100' : '#004D40') + '">'
+    + (neg ? '✗ alerte ≥ −15°C &nbsp;|&nbsp; ✓ cible ≤ −18°C' : '✓ cible ≤ 4°C &nbsp;|&nbsp; ✗ alerte ≥ 6°C') + '</span></div>';
+  html += '<div class="table-scroll"><table class="temp-table"><thead>';
+  if (neg) {
+    html += '<tr style="background:#1565C0;color:#fff"><th class="t-label">T°</th>' + days.map(d => '<th colspan="2">' + d + '</th>').join('') + '</tr>';
+    html += '<tr style="background:#1976D2;color:#fff;font-size:8px"><th></th>' + days.map(() => '<th class="ampm-label">AM</th><th class="ampm-label">PM</th>').join('') + '</tr>';
+  } else {
+    html += '<tr style="background:#00695C;color:#fff"><th class="t-label" style="background:#004D40">T°</th>' + days.map(d => '<th>' + d + '</th>').join('') + '</tr>';
+  }
+  html += '</thead><tbody>';
+  temps.forEach(t => {
+    let cls, lbl;
+    if (neg) {
+      if (ALERT_NEG.has(t)) { cls = 'temp-alert'; lbl = '✗ ' + t + '°C'; }
+      else if (TARGET_NEG.has(t)) { cls = 'temp-ok'; lbl = '✓ ' + t + '°C'; }
+      else { cls = 'temp-warn'; lbl = t + '°C'; }
+    } else if (t >= 6) { cls = 'temp-alert'; lbl = '✗ ' + t + '°C'; }
+    else if (t <= 4) { cls = 'temp-ok'; lbl = '✓ ' + t + '°C'; }
+    else { cls = 'temp-warn'; lbl = t + '°C'; }
+    html += '<tr><td class="t-label ' + cls + '">' + lbl + '</td>';
+    days.forEach(d => {
+      const slots = neg ? ['AM', 'PM'] : [null];
+      slots.forEach(slot => {
+        html += '<td class="' + cls + '">' + dbCase(dbReleve(a, d, slot) === t) + '</td>';
+      });
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table></div>';
+  if (a.comment) html += '<div class="comment-box"><h3>📝 Anomalies</h3><textarea disabled>' + esc(a.comment) + '</textarea></div>';
+  return html;
+}
+function dbPdf(){
+  const meta = (S.histoList || []).find(x => x.id === S.dbId);
+  if (!meta) { toast('Rien à imprimer', true); return; }
+  if (meta.live) {
+    const now = new Date();
+    const noms = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+    const label = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + ' – ' + noms[now.getMonth()] + ' (en cours)';
+    genererPdfCloture(label).catch(e => toast('❌ ' + e.message, true));
+    return;
+  }
+  const data = S.histoData && S.histoData[S.dbId];
+  if (!data) { toast('Rien à imprimer', true); return; }
+  const bi = meta.type === 'bi';
+  let body = '';
+  (data.zones || []).forEach(z => {
+    body += '<div class="page-section"><div class="print-title">📋 ' + esc(z.nom || 'Zone') + ' — ' + esc(meta.label) + '</div>' + dbGrilleZone(z, bi) + '</div><div class="page-break"></div>';
+  });
+  if (!bi) (data.appareils || []).forEach(a => {
+    body += '<div class="page-section"><div class="print-title">' + (a.type === 'neg' ? '❄️' : '🧪') + ' ' + esc(a.nom) + ' — ' + esc(meta.label) + '</div>' + dbGrilleApp(a) + '</div><div class="page-break"></div>';
+  });
+  if (!body) { toast('Aucune page à imprimer', true); return; }
+  ouvrirImpression(meta.label || 'Clôture', body);
+}
+function ouvrirImpression(label, body){
+  const css=document.querySelector('style').innerHTML;
+  const titre=String(label||'Clôture').replace(/'/g,'');
+  const fullHtml=`<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>${esc(label)}</title><style>${css} body{background:#fff;font-size:11px;margin:0;} .topbar,.tabs,.tab-div,.progress-zone,.app-card-actions,.add-form,.inactive-title,.comment-box .btn,button,.btn,#toast,.meta-row button,.add-record-form,.alert-banner,.cloture-zone{display:none!important;} .print-title{font-size:13px;font-weight:700;color:#1B6B7B;padding:5px 0;border-bottom:2px solid #1B6B7B;margin-bottom:8px;} .page-break{page-break-after:always;} .page-section{padding:6mm;} .table-scroll,.records-table-wrap{overflow:visible!important;} .releve-table,.temp-table,.records-table{font-size:7px!important;width:100%!important;} .cb-wrap input[type=checkbox]{width:9px!important;height:9px!important;} .sec-hdr{font-size:8px!important;padding:2px 4px!important;} input[disabled],textarea[disabled]{color:#263238;opacity:1;-webkit-text-fill-color:#263238;} *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;} @page{size:A4 landscape;margin:6mm;}</style></head><body>${body}\x3cscript\x3edocument.title='${titre}';window.onload=function(){setTimeout(function(){window.print();setTimeout(function(){window.close();},2000);},600);};\x3c/script></body></html>`;
+  const blob=new Blob([fullHtml],{type:'text/html'}),url=URL.createObjectURL(blob),win=window.open(url,'_blank');
+  if(!win){const a=document.createElement('a');a.href=url;a.download=titre.replace(/[^a-zA-Z0-9\-]/g,'_')+'.html';a.click();toast('⚠️ Popup bloqué',true);}
+}
+
+// ════════════════════════════════════════════════════════════════════
+//  HISTORIQUE DES CLÔTURES (démo)
+//  • archives factices : deux mois + un bi-annuel, tirages stables
+//  • clôture réelle    : met de côté les cases cochées du moment
+// ════════════════════════════════════════════════════════════════════
+function demoHash(txt){
+  let h = 2166136261;
+  const s = String(txt);
+  for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return h >>> 0;
+}
+function demoRnd(seed){
+  let s = (seed >>> 0) || 1;
+  return function(){ s = (Math.imul(s, 1664525) + 1013904223) >>> 0; return s / 4294967296; };
+}
+function demoPick(rnd, arr){ return arr[Math.floor(rnd() * arr.length) % arr.length]; }
+function demoNegCible(){ return TEMPS_NEG.filter(t => TARGET_NEG.has(t)); }
+function demoNegAlerte(){ return TEMPS_NEG.filter(t => ALERT_NEG.has(t)); }
+function demoMatCible(){ return TEMPS_MAT.filter(t => t <= 4); }
+function demoMatAlerte(){ return TEMPS_MAT.filter(t => t >= 6); }
+
+// Un mois de relevés pour un appareil : ~9 jours sur 10 relevés, quelques
+// alertes, température prise dans la grille de l'appareil (mêmes cases).
+function demoSerieAppareil(app, rnd){
+  const neg = app.type === 'neg';
+  const serie = {};
+  for (let d = 1; d <= 31; d++) {
+    if (rnd() < 0.1) continue;
+    const enAlerte = rnd() < 0.08;
+    if (neg) {
+      const jour = {};
+      ['AM', 'PM'].forEach(slot => {
+        const alerte = enAlerte && rnd() < 0.6;
+        jour[slot] = demoPick(rnd, alerte ? demoNegAlerte() : demoNegCible());
+      });
+      serie[d] = jour;
+    } else {
+      serie[d] = demoPick(rnd, enAlerte ? demoMatAlerte() : demoMatCible());
+    }
+  }
+  return serie;
+}
+
+// Zones d'un mois (3 modules) ou d'un bi-annuel (cases = mois).
+function demoArchiveZones(label, rnd, bi){
+  const tabs = bi ? ['biannuel'] : ['chaud', 'froid', 'autres'];
+  return tabs.map(tab => {
+    const d = layoutData(tab) || { sections: [] };
+    const n = bi ? 12 : 31;
+    const lignes = [];
+    (d.sections || []).forEach(sec => (sec.items || []).forEach(it => {
+      const jours = [];
+      for (let jour = bi ? 0 : 1; jour < (bi ? n : n + 1); jour++) if (rnd() < 0.78) jours.push(jour);
+      lignes.push({ zone: sec.name, nom: it.n, p: it.p || '', jours: jours, ph: {} });
+    }));
+    return {
+      nom: moduleLabel(tab, 'long'),
+      mois: label,
+      visa: demoPick(rnd, ['ML', 'SD', 'LM', 'TC']),
+      comment: bi
+        ? 'Campagne bi-annuelle contrôlée, écarts mineurs traités dans la semaine.'
+        : 'Relevé mensuel contrôlé, aucun écart bloquant.',
+      lignes: lignes
+    };
+  });
+}
+function demoArchiveAppareils(appareils, label, rnd){
+  return (appareils || []).filter(a => a.actif).map(a => ({
+    id: a.id,
+    nom: a.nom,
+    type: a.type || 'mat',
+    mois: label,
+    visa: demoPick(rnd, ['ML', 'SD', 'LM', 'TC']),
+    comment: '',
+    serie: demoSerieAppareil(a, rnd)
+  }));
+}
+function demoArchiveFactice(appareils){
+  const metadonnees = [
+    { id: 'm:2025-12', type: 'mois', label: '2025-12 – Décembre', mois: '2025-12', clotureLe: '2026-01-02 08:10' },
+    { id: 'm:2026-02', type: 'mois', label: '2026-02 – Février', mois: '2026-02', clotureLe: '2026-03-01 08:12' },
+    { id: 'm:2026-01', type: 'mois', label: '2026-01 – Janvier', mois: '2026-01', clotureLe: '2026-02-01 08:05' },
+    { id: 'bi:2025-S2', type: 'bi', label: '2025-S2 – Bi-annuel', mois: '2025-S2', clotureLe: '2025-12-31 17:40' }
+  ];
+  return metadonnees.map(meta => {
+    const rnd = demoRnd(demoHash(meta.id));
+    const bi = meta.type === 'bi';
+    return {
+      id: meta.id, type: meta.type, label: meta.label, mois: meta.mois, clotureLe: meta.clotureLe,
+      data: {
+        zones: demoArchiveZones(meta.label, rnd, bi),
+        appareils: bi ? [] : demoArchiveAppareils(appareils, meta.label, rnd)
+      }
+    };
+  });
+}
+
+// ── Clôture réelle : on archive les cases cochées du moment ─────────
+function demoPackZonesReel(label){
+  return ['chaud', 'froid', 'autres'].map(tab => {
+    const d = layoutData(tab) || { sections: [] };
+    const ck = S.checks[tab] || {};
+    const lignes = [];
+    (d.sections || []).forEach(sec => (sec.items || []).forEach(it => {
+      const jours = [];
+      for (let jour = 1; jour <= 31; jour++) if (ck['i' + it.slot + '__' + jour]) jours.push(jour);
+      lignes.push({ zone: sec.name, nom: it.n, p: it.p || '', jours: jours, ph: {} });
+    }));
+    return {
+      nom: moduleLabel(tab, 'long'),
+      mois: label,
+      visa: (S.meta[tab] && S.meta[tab].visa) || '',
+      comment: S.comments[tab] || '',
+      lignes: lignes
+    };
+  });
+}
+function demoPackZonesBiReel(label){
+  const d = layoutData('biannuel') || { sections: [] };
+  const ck = S.checks['biannuel'] || {};
+  const lignes = [];
+  (d.sections || []).forEach(sec => (sec.items || []).forEach(it => {
+    const jours = [];
+    MONTHS.forEach((_, mi) => { if (ck['i' + it.slot + '__' + mi]) jours.push(mi); });
+    lignes.push({ zone: sec.name, nom: it.n, p: it.p || '', jours: jours, ph: {} });
+  }));
+  return [{ nom: moduleLabel('biannuel', 'long'), mois: label, visa: '', comment: S.comments['biannuel'] || '', lignes: lignes }];
+}
+function demoPackAppareilsReel(label){
+  return (DEMO_STORE.appareils || []).filter(a => a.actif).map(a => {
+    const ck = S.appChecks[a.id] || {};
+    const neg = a.type === 'neg';
+    const serie = {};
+    Object.keys(ck).forEach(k => {
+      if (!ck[k]) return;
+      if (neg) {
+        const m = /^(-?\d+)__(\d+)__(AM|PM)$/.exec(k);
+        if (!m) return;
+        const d = Number(m[2]), t = Number(m[1]);
+        if (!serie[d]) serie[d] = {};
+        if (serie[d][m[3]] === undefined || t > serie[d][m[3]]) serie[d][m[3]] = t;
+      } else {
+        const m = /^(-?\d+)__(\d+)$/.exec(k);
+        if (!m) return;
+        const d = Number(m[2]), t = Number(m[1]);
+        if (serie[d] === undefined || t > serie[d]) serie[d] = t;
+      }
+    });
+    const meta = (DEMO_STORE.appMeta || {})[a.id] || {};
+    return {
+      id: a.id, nom: a.nom, type: a.type || 'mat', mois: label,
+      visa: meta.visa || '', comment: (DEMO_STORE.comments || {})['app_' + a.id] || '',
+      serie: serie
+    };
+  });
+}
+// Avant d'archiver, on s'assure que tous les modules et tous les appareils
+// sont en mémoire : sinon un module non visité serait archivé vide.
+async function demoArchiverToutLire(){
+  for (const tab of LAYOUT_TABS) {
+    if (S.loaded.has(tab)) continue;
+    try {
+      const st = tab === 'biannuel' ? await api('loadBiannuelState') : await api('loadHebdoState', { sheetName: SHEET_NAMES[tab] });
+      applyState(tab, st);
+      S.loaded.add(tab);
+    } catch (e) {}
+  }
+  await dbChargerAppChecks();
+}
+async function demoArchiver(type, label){
+  const bi = type === 'bi';
+  await demoArchiverToutLire();
+  const data = bi
+    ? { zones: demoPackZonesBiReel(label), appareils: [] }
+    : { zones: demoPackZonesReel(label), appareils: demoPackAppareilsReel(label) };
+  const id = (bi ? 'bi:' : 'm:') + (moisDepuisLabel(label) || label || Date.now());
+  const clotureLe = new Date().toISOString().slice(0, 16).replace('T', ' ');
+  DEMO_STORE.historique = [{
+    id: id, type: type, label: label, mois: moisDepuisLabel(label) || label, clotureLe: clotureLe, data: data
+  }].concat((DEMO_STORE.historique || []).filter(e => e.id !== id));
+  const gardes = {};
+  DEMO_STORE.historique = DEMO_STORE.historique.filter(e => {
+    gardes[e.type] = (gardes[e.type] || 0) + 1;
+    return gardes[e.type] <= 6;
+  });
+}
+function demoResetRelevesMois(){
+  ['chaud', 'froid', 'autres'].forEach(tab => {
+    const st = DEMO_STORE.hebdo[SHEET_NAMES[tab]] || (DEMO_STORE.hebdo[SHEET_NAMES[tab]] = {});
+    Object.keys(st).forEach(k => { if (k !== '_month') delete st[k]; });
+    DEMO_STORE.comments[tab] = '';
+  });
+  Object.keys(DEMO_STORE.appStates || {}).forEach(id => { DEMO_STORE.appStates[id] = {}; });
+  Object.keys(DEMO_STORE.appMeta || {}).forEach(id => {
+    DEMO_STORE.appMeta[id] = { moisAnnee: DEMO_STORE.appMeta[id].moisAnnee || '2026-03', visa: '' };
+  });
+  Object.keys(DEMO_STORE.comments || {}).forEach(k => { if (k.indexOf('app_') === 0) DEMO_STORE.comments[k] = ''; });
+}
+
+// ════════════════════════════════════════════════════════════════════
 //  CLÔTURES
 // ════════════════════════════════════════════════════════════════════
 function showClotureBi(){document.getElementById('cloture-bi-label').value=new Date().getFullYear()+' – Bi-Annuel';document.getElementById('cloture-bi-result').style.display='none';document.getElementById('btn-cloturer-bi').disabled=false;document.getElementById('btn-cloturer-bi').textContent='📤 Exporter';document.getElementById('modal-cloture-bi').style.display='flex';}
@@ -2904,7 +3621,7 @@ async function confirmerClotureBi(){
   if(!confirm('Confirmer la clôture bi-annuelle "'+label+'" ?'))return;
   const btn=document.getElementById('btn-cloturer-bi');btn.disabled=true;btn.textContent='⏳...';
   try{
-    genererPdfBiannuel(label);const r=await api('cloturerBiannuel',{label});
+    genererPdfBiannuel(label);const r=await api('cloturerBiannuel',{label});dbReset();
     const res=document.getElementById('cloture-bi-result');res.style.display='block';
     if(r.ok){res.style.background='#E8F5E9';res.style.color='#2E7D32';res.innerHTML='✅ PDF ouvert — sauvegardez-le. Données remises à zéro !';btn.textContent='✓ Terminé';S.checks['biannuel']={};S.comments['biannuel']='';S.loaded.delete('biannuel');setTimeout(()=>{document.getElementById('modal-cloture-bi').style.display='none';if(S.tab==='biannuel')loadAndRender('biannuel');},1500);}
     else{res.style.background='#FFEBEE';res.style.color='#C62828';res.innerHTML='❌ '+r.error;btn.disabled=false;btn.textContent='📤 Réessayer';}
@@ -2926,7 +3643,7 @@ async function confirmerCloture(){
   const btn=document.getElementById('btn-cloturer');btn.disabled=true;btn.textContent='⏳...';
   const res=document.getElementById('cloture-result');res.style.display='none';
   try{
-    await genererPdfCloture(label);const r=await api('cloturerMois',{moisLabel:label});
+    await genererPdfCloture(label);const r=await api('cloturerMois',{moisLabel:label});dbReset();
     res.style.display='block';
     if(r.ok){
       res.style.background='#E8F5E9';res.style.color='#2E7D32';res.innerHTML='<strong>✅ Clôture réussie !</strong><br>📄 Sauvegardez le PDF depuis la fenêtre d\'impression.';btn.textContent='✓ Terminé';
@@ -2938,7 +3655,7 @@ async function confirmerCloture(){
 }
 async function genererPdfCloture(label){
   const css=document.querySelector('style').innerHTML;let body='';
-  ['chaud','froid','autres'].forEach(tabId=>{body+=`<div class="page-section"><div class="print-title">📋 ${DATA[tabId].title} — ${label}</div>${buildHebdo(tabId)}</div><div class="page-break"></div>`;});
+  ['chaud','froid','autres'].forEach(tabId=>{body+=`<div class="page-section"><div class="print-title">📋 ${moduleLabel(tabId,'long')} — ${label}</div>${buildHebdo(tabId)}</div><div class="page-break"></div>`;});
   S.appareils.filter(a=>a.actif).forEach(app=>{body+=`<div class="page-section"><div class="print-title">${typeMeta(app.type).emoji} ${esc(app.nom)} — ${label}</div>${app.type==='neg'?buildTempNeg(app):buildTempMat(app)}</div><div class="page-break"></div>`;});
   body+=`<div class="page-section"><div class="print-title">🔬 Prélèvements de surface — ${label}</div>${buildPrelevements()}</div><div class="page-break"></div>`;
   body+=`<div class="page-section"><div class="print-title">⚖️ Relevé des pesées — ${label}</div>${buildPesees()}</div>`;
