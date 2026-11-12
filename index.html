@@ -530,6 +530,9 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#333;font-
       <div class="sub" id="sidebar-ss-name">Menu</div>
     </div>
     <div class="sidebar-body">
+<div class="sidebar-item" data-tab="dashboard" onclick="sidebarNav('dashboard',this)">
+  <span class="si-icon">📊</span> Tableau de bord
+</div>
       <div class="sidebar-section-title">Nettoyage hebdo</div>
       <div class="sidebar-item" data-tab="chaud" onclick="sidebarNav('chaud',this)"><span class="si-icon">🔥</span> <span id="sidelbl-chaud">Labo Chaud</span></div>
       <div class="sidebar-item" data-tab="froid" onclick="sidebarNav('froid',this)"><span class="si-icon">❄️</span> <span id="sidelbl-froid">Labo Froid</span></div>
@@ -539,10 +542,6 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#333;font-
       <div class="sidebar-section-title">Relevés</div>
       <div class="sidebar-item" data-tab="prelevements" onclick="sidebarNav('prelevements',this)"><span class="si-icon">🔬</span> Prélèvements</div>
       <div class="sidebar-item" data-tab="pesees" onclick="sidebarNav('pesees',this)"><span class="si-icon">⚖️</span> Pesées</div>
-      <div class="sidebar-section-title">Historique</div>
-<div class="sidebar-item" data-tab="dashboard" onclick="sidebarNav('dashboard',this)">
-  <span class="si-icon">📊</span> Tableau de bord
-</div>
       <div class="sidebar-section-title">Températures</div>
 <div class="sidebar-item" data-tab="temp-manager" onclick="sidebarNav('temp-manager',this)">
   <span class="si-icon">🌡️</span> Appareils
@@ -569,6 +568,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#333;font-
 </div>
 
 <div class="tabs" id="tabs-bar">
+    <div class="tab" data-tab="dashboard" onclick="switchTab('dashboard',this)">📊 Tableau</div>
     <div class="tab active" data-tab="chaud" onclick="switchTab('chaud',this)">🔥 <span id="tablbl-chaud">Chaud</span></div>
     <div class="tab" data-tab="froid" onclick="switchTab('froid',this)">❄️ <span id="tablbl-froid">Froid</span></div>
     <div class="tab" data-tab="autres" onclick="switchTab('autres',this)">🏭 <span id="tablbl-autres">Autres</span></div>
@@ -578,7 +578,6 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#333;font-
     <div class="tab" data-tab="maintenance" onclick="switchTab('maintenance',this)">🛠️ Machines</div>
     <div class="tab" data-tab="freezer" onclick="switchTab('freezer',this)">🧊 Congelateur</div>
     <div class="tab-div"></div>
-    <div class="tab" data-tab="dashboard" onclick="switchTab('dashboard',this)">📊 Tableau</div>
     <div class="tab" data-tab="temp-manager" onclick="switchTab('temp-manager',this)">⚙️ Appareils <span class="badge" id="badge-app">0</span></div>
     <div class="tab" data-tab="elog" onclick="switchTab('elog',this)">📋 E-Log</div>
   </div>
