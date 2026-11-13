@@ -2814,14 +2814,7 @@ function buildHebdo(tabId){
 // ════════════════════════════════════════════════════════════════════
 function buildBiannuel(){
   const d=layoutData('biannuel');if(!S.checks['biannuel'])S.checks['biannuel']={};
-  let total=0,checked=0;
-  MONTHS.forEach((_,mi)=>{total++;if(S.checks['biannuel']['BIO__'+mi])checked++;});
-  d.sections.forEach(s=>s.items.forEach(it=>{MONTHS.forEach((_,mi)=>{total++;if(S.checks['biannuel']['i'+it.slot+'__'+mi])checked++;});}));
-  const pct=total>0?Math.round(checked/total*100):0;
   let html=`<div class="meta-row"><button class="btn btn-sm" style="background:#E0F7FA;color:var(--teal-dark);border:1px solid #B2EBF2" onclick="openZonesEditor('biannuel')">🧩 Zones / machines</button><label>Année :</label><input type="number" value="${new Date().getFullYear()}" style="width:90px"><label>Visa :</label><input type="text" placeholder="Initiales" style="width:90px"></div>
-  <div class="progress-zone"><div style="font-size:12px;font-weight:700;color:var(--teal-dark);margin-bottom:6px;">Progression annuelle</div>
-    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
-    <div class="progress-label">${checked} / ${total} cases (${pct}%)</div></div>
   <div class="table-scroll"><table class="releve-table"><thead><tr>
     <th class="th-equip">Équipement</th><th class="th-period">Périodicité</th>
     ${MONTHS.map(m=>`<th style="min-width:44px">${m}</th>`).join('')}
