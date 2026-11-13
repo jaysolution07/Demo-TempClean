@@ -516,7 +516,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#333;font-
     </div>
     <div class="topbar-right">
       <span id="conn-status">⏳</span>
-    
+      
       <button class="btn btn-white btn-sm" onclick="printPage()">🖨️</button>
       <button class="btn btn-sm" style="background:#7B1FA2;color:#fff" onclick="showCloture()">📦 Clôturer</button>
       <button id="btn-logout" class="btn btn-sm" style="background:rgba(255,255,255,.15);color:#fff" onclick="logout()" title="Déconnexion">🚪</button>
@@ -2773,10 +2773,6 @@ function buildHebdo(tabId){
   const days=Array.from({length:31},(_,i)=>i+1);
   if(!S.checks[tabId])S.checks[tabId]={};
   if(!S.meta[tabId])S.meta[tabId]={month:new Date().toISOString().slice(0,7),visa:''};
-  let total=0,checked=0;
-  days.forEach(day=>{total++;if(S.checks[tabId]['BIO__'+day])checked++;});
-  d.sections.forEach(s=>s.items.forEach(it=>{days.forEach(day=>{total++;if(S.checks[tabId]['i'+it.slot+'__'+day])checked++;});}));
-  const pct=total>0?Math.round(checked/total*100):0;
   const todayD=new Date(),JOURS=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'],MOIS2=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
   const todayNum=todayD.getDate(),todayLabel=`${JOURS[todayD.getDay()]} ${todayNum} ${MOIS2[todayD.getMonth()]} ${todayD.getFullYear()}`;
   let html=`<div class="meta-row">
@@ -2785,11 +2781,6 @@ function buildHebdo(tabId){
     <strong style="color:var(--teal-dark);font-size:13px;">${d.title}</strong>
     <button class="btn btn-sm" style="background:#E0F7FA;color:var(--teal-dark);border:1px solid #B2EBF2" onclick="openZonesEditor('${tabId}')">🧩 Zones / machines</button>
     <span style="margin-left:auto;background:var(--orange-light);color:var(--orange);font-size:12px;font-weight:700;padding:5px 10px;border-radius:7px;border:1px solid #FFCC80;">📅 Aujourd'hui : Jour ${todayNum} — ${todayLabel}</span>
-  </div>
-  <div class="progress-zone">
-    <div style="font-size:12px;font-weight:700;color:var(--teal-dark);margin-bottom:6px;">Progression du mois</div>
-    <div class="progress-bar"><div class="progress-fill" id="pb-${tabId}" style="width:${pct}%"></div></div>
-    <div class="progress-label" id="pl-${tabId}">${checked} / ${total} cases (${pct}%)</div>
   </div>
   <div class="table-scroll"><table class="releve-table">
     <thead><tr><th class="th-equip">Équipement</th><th class="th-period">Périodicité</th>
@@ -2865,15 +2856,39 @@ function buildBiannuel(){
 // ════════════════════════════════════════════════════════════════════
 //  BUILD TEMP NEG / MAT
 // ════════════════════════════════════════════════════════════════════
+// Progression d'un appareil : une case cochée = un jour relevé.
+// Congélateurs : une case AM et une case PM par jour (62 par mois).
+// Cuves : une seule case par jour (31). Les températures cochées le même
+// jour ne comptent qu'une fois.
+function appProgress(app){
+  const ck = S.appChecks[app.id] || {};
+  const neg = app.type === 'neg';
+  const slots = neg ? ['AM','PM'] : [null];
+  let faits = 0;
+  for (let d = 1; d <= 31; d++) {
+    slots.forEach(slot => {
+      const re = slot ? new RegExp('^-?\\d+__' + d + '__' + slot + '$') : new RegExp('^-?\\d+__' + d + '$');
+      if (Object.keys(ck).some(k => ck[k] && re.test(k))) faits++;
+    });
+  }
+  const total = 31 * slots.length;
+  return { faits:faits, total:total, pct: total ? Math.round(faits / total * 100) : 0, unit: neg ? 'relevés AM/PM' : 'jours' };
+}
+function refreshAppProg(appId){
+  const app = S.appareils.find(a => a.id === appId);
+  if (!app) return;
+  const p = appProgress(app);
+  const pb = document.getElementById('pb-app-'+appId); if (pb) pb.style.width = p.pct + '%';
+  const pl = document.getElementById('pl-app-'+appId); if (pl) pl.textContent = p.faits + ' / ' + p.total + ' ' + p.unit + ' (' + p.pct + '%)';
+}
 function buildTempNeg(app){
   const key=app.id;if(!S.appChecks[key])S.appChecks[key]={};
   const meta=S.meta[key]||{};
-  const days=Array.from({length:31},(_,i)=>i+1);let total=0,checked=0;
-  TEMPS_NEG.forEach(t=>days.forEach(d=>['AM','PM'].forEach(slot=>{total++;if(S.appChecks[key][t+'__'+d+'__'+slot])checked++;})));
-  const pct=total>0?Math.round(checked/total*100):0;
+  const days=Array.from({length:31},(_,i)=>i+1);
+  const prog=appProgress(app);
   let html=`<div class="meta-row"><span style="font-size:14px;font-weight:700;color:#1565C0">❄️ ${esc(app.nom)}</span><label>Mois/Année :</label><input type="month" value="${meta.moisAnnee||new Date().toISOString().slice(0,7)}" id="meta-m-${key}"><label>Visa :</label><input type="text" style="width:80px" id="meta-v-${key}" placeholder="Initiales" value="${esc(meta.visa||'')}"><button class="btn btn-primary btn-sm" onclick="saveAppMeta('${key}')">💾 Enregistrer</button></div>
   <div class="meta-row" style="background:#FFF3E0"><span style="font-size:12px;font-weight:700;color:#E65100">✗ alerte ≥ −15°C &nbsp;|&nbsp; ✓ cible ≤ −18°C</span></div>
-  <div class="progress-zone"><div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:#1565C0"></div></div><div class="progress-label">${checked}/${total} (${pct}%)</div></div>
+  <div class="progress-zone"><div class="progress-bar"><div class="progress-fill" id="pb-app-${key}" style="width:${prog.pct}%;background:#1565C0"></div></div><div class="progress-label" id="pl-app-${key}">${prog.faits} / ${prog.total} ${prog.unit} (${prog.pct}%)</div></div>
   <div class="table-scroll"><table class="temp-table"><thead>
     <tr style="background:#1565C0;color:#fff"><th class="t-label">T°</th>${days.map(d=>`<th colspan="2" style="min-width:40px">${d}</th>`).join('')}</tr>
     <tr style="background:#1976D2;color:#fff;font-size:8px"><th></th>${days.map(()=>'<th class="ampm-label">AM</th><th class="ampm-label">PM</th>').join('')}</tr>
@@ -2891,12 +2906,11 @@ function buildTempNeg(app){
 function buildTempMat(app){
   const key=app.id;if(!S.appChecks[key])S.appChecks[key]={};
   const meta=S.meta[key]||{};
-  const days=Array.from({length:31},(_,i)=>i+1);let total=0,checked=0;
-  TEMPS_MAT.forEach(t=>days.forEach(d=>{total++;if(S.appChecks[key][t+'__'+d])checked++;}));
-  const pct=total>0?Math.round(checked/total*100):0;
+  const days=Array.from({length:31},(_,i)=>i+1);
+  const prog=appProgress(app);
   let html=`<div class="meta-row"><span style="font-size:14px;font-weight:700;color:#00695C">🧪 ${esc(app.nom)}</span><label>Année/Mois :</label><input type="month" value="${meta.moisAnnee||new Date().toISOString().slice(0,7)}" id="meta-m-${key}"><label>Visa :</label><input type="text" style="width:80px" id="meta-v-${key}" placeholder="Initiales" value="${esc(meta.visa||'')}"><button class="btn btn-primary btn-sm" onclick="saveAppMeta('${key}')">💾 Enregistrer</button></div>
   <div class="meta-row" style="background:#E0F2F1"><span style="font-size:12px;font-weight:700;color:#004D40">✓ cible ≤ 4°C &nbsp;|&nbsp; ✗ alerte ≥ 6°C</span></div>
-  <div class="progress-zone"><div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:#00695C"></div></div><div class="progress-label">${checked}/${total} (${pct}%)</div></div>
+  <div class="progress-zone"><div class="progress-bar"><div class="progress-fill" id="pb-app-${key}" style="width:${prog.pct}%;background:#00695C"></div></div><div class="progress-label" id="pl-app-${key}">${prog.faits} / ${prog.total} ${prog.unit} (${prog.pct}%)</div></div>
   <div class="table-scroll"><table class="temp-table"><thead><tr style="background:#00695C;color:#fff"><th class="t-label" style="background:#004D40">T°</th>${days.map(d=>`<th style="min-width:28px">${d}</th>`).join('')}</tr></thead><tbody>`;
   TEMPS_MAT.forEach(t=>{
     let cls,icon;if(t>=6){cls='temp-alert';icon='✗ ';}else if(t<=4){cls='temp-ok';icon='✓ ';}else{cls='temp-warn';icon='';}
@@ -2960,7 +2974,7 @@ async function tick(tabId,itemName,itemIdx,day,val){
   if(!S.checks[tabId])S.checks[tabId]={};
   const stateKey=itemName==='BIO'?'BIO__'+day:'i'+itemIdx+'__'+day;
   const backendKey=itemName==='BIO'?'BIO':'i'+itemIdx;
-  S.checks[tabId][stateKey]=val;updateProg(tabId);toast(val?'✅ Coché':'☐ Décoché');
+  S.checks[tabId][stateKey]=val;toast(val?'✅ Coché':'☐ Décoché');
   try{const r=await api('saveHebdo',{sheetName:SHEET_NAMES[tabId],itemName:backendKey,day,value:val});if(r&&!r.ok)toast('⚠️ '+r.error,true);}catch(e){toast('❌ '+e.message,true);}
 }
 async function tickBi(itemIdx,monthIndex,val){
@@ -2973,7 +2987,7 @@ async function tickBi(itemIdx,monthIndex,val){
 async function tickApp(appId,tempVal,day,slot,val){
   if(!S.appChecks[appId])S.appChecks[appId]={};
   const ck=slot?`${tempVal}__${day}__${slot}`:`${tempVal}__${day}`;
-  S.appChecks[appId][ck]=val;toast(val?'✅':'☐');
+  S.appChecks[appId][ck]=val;refreshAppProg(appId);toast(val?'✅':'☐');
   try{const r=await api('saveAppareilTemp',{appareilId:appId,tempVal,day,slot,value:val});if(r&&!r.ok)toast('⚠️ '+r.error,true);}catch(e){toast('❌ '+e.message,true);}
 }
 function togglePh(cb,inputId){const el=document.getElementById(inputId);if(!el)return;el.style.display=cb.checked?'':'none';if(!cb.checked)el.value='';}
@@ -2991,14 +3005,6 @@ async function supprimerDefinitivement(id,nom){if(!confirm('⚠️ Supprimer dé
 async function reactApp(id){try{await api('reactiverAppareil',{id});const app=S.appareils.find(a=>a.id===id);if(app)app.actif=true;updateAppareilsTabs();renderTab('temp-manager');toast('♻️ Réactivé !');}catch(e){toast('❌ '+e.message,true);}}
 function goToApp(id){const el=document.querySelector(`[data-app-id="${id}"]`);if(el)el.click();else switchTab('app_'+id,null);}
 
-function updateProg(tabId){
-  const d=layoutData(tabId);if(!d)return;const days=Array.from({length:31},(_,i)=>i+1);let total=0,checked=0;
-  days.forEach(day=>{total++;if(S.checks[tabId]['BIO__'+day])checked++;});
-  d.sections.forEach(s=>s.items.forEach(it=>{days.forEach(day=>{total++;if(S.checks[tabId]['i'+it.slot+'__'+day])checked++;});}));
-  const pct=total>0?Math.round(checked/total*100):0;
-  const pb=document.getElementById('pb-'+tabId);if(pb)pb.style.width=pct+'%';
-  const pl=document.getElementById('pl-'+tabId);if(pl)pl.textContent=`${checked} / ${total} cases (${pct}%)`;
-}
 
 // ════════════════════════════════════════════════════════════════════
 //  UTILITAIRES
